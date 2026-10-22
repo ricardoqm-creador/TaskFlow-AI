@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Componentes
+   ========================================================================== */
+
+/* ---------- Marca ---------- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+}
+
+.brand__logo {
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.55));
+}
+
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-strong);
+}
+
+.brand__name span {
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand__tag {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--silver-600);
+}
+
+/* ---------- Navegación ---------- */
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 0.7rem var(--space-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-align: left;
+  color: var(--silver-600);
+  transition: var(--transition);
+}
+
+.nav-link:hover {
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.7);
+  border-color: var(--border);
+}
+
+.nav-link.is-active {
+  color: var(--text-strong);
+  background: var(--white);
+  border-color: var(--border-gold);
+  box-shadow: var(--glow-gold);
+}
+
+.nav-link.is-active::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 20%;
+  bottom: 20%;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--grad-gold);
+  box-shadow: 0 0 10px var(--gold-500);
+}
+
+.nav-link.is-active .icon {
+  color: var(--gold-600);
+}
+
+/* Tarjeta inferior de la barra lateral */
+.sidebar-card {
+  position: relative;
+  padding: var(--space-4);
+  background: var(--white);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.sidebar-card__title {
+  margin-bottom: var(--space-1);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-gold);
+}
+
+.sidebar-card__text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+

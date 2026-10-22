@@ -1,0 +1,74 @@
+/* ==========================================================================
+   Variables de diseño — paleta Dawnbreaker: dorado, plateado y blanco
+   ========================================================================== */
+:root {
+  /* Blancos */
+  --white: #ffffff;
+  --pearl: #f8f9fb;
+
+  /* Plateados */
+  --silver-100: #eef0f4;
+  --silver-200: #dde1e8;
+  --silver-300: #c4cad4;
+  --silver-400: #a3abb8;
+  --silver-600: #5f6775; /* oscurecido para cumplir contraste 4.5:1 sobre --silver-100 */
+  --silver-800: #3a4150;
+  --silver-900: #20242e;
+
+  /* Dorados */
+  --gold-100: #fbf1cc;
+  --gold-300: #f4dc8e;
+  --gold-500: #d4af37;
+  --gold-600: #b8921f;
+  --gold-700: #7d600a; /* oscurecido para cumplir contraste 4.5:1 sobre --gold-100 */
+
+  /* Degradados metálicos */
+  --grad-gold: linear-gradient(135deg, var(--gold-300) 0%, var(--gold-500) 45%, var(--gold-600) 100%);
+  --grad-gold-soft: linear-gradient(135deg, var(--gold-100), var(--gold-300));
+  --grad-silver: linear-gradient(160deg, var(--white) 0%, var(--silver-100) 45%, var(--silver-200) 100%);
+  --hairline-gold: linear-gradient(90deg, transparent, var(--gold-500), transparent);
+
+  /* Texto */
+  --text: var(--silver-800);
+  --text-strong: var(--silver-900);
+  --text-muted: var(--silver-600);
+  --text-gold: var(--gold-700);
+
+  /* Superficies */
+  --surface: rgba(255, 255, 255, 0.78);
+  --border: rgba(196, 202, 212, 0.75);
+  --border-gold: rgba(212, 175, 55, 0.55);
+
+  /* Sombras y brillos */
+  --shadow-sm: 0 1px 2px rgba(58, 65, 80, 0.08);
+  --shadow-md: 0 8px 24px rgba(58, 65, 80, 0.1);
+  --shadow-lg: 0 20px 50px rgba(58, 65, 80, 0.18);
+  --glow-gold: 0 0 0 1px var(--border-gold), 0 0 22px rgba(212, 175, 55, 0.35);
+
+  /* Forma */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* Tipografía */
+  --font-display: "Orbitron", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Exo 2", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Espaciado */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* Layout */
+  --sidebar-width: 264px;
+  --topbar-height: 68px;
+
+  /* Movimiento */
+  --ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+  --transition: 220ms var(--ease);
+}

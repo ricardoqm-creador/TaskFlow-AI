@@ -1,0 +1,189 @@
+/* ---------- Tabla ---------- */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.task-table th {
+  padding: var(--space-3) var(--space-4);
+  background: var(--grad-silver);
+  border-bottom: 2px solid var(--gold-500);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--silver-800);
+  white-space: nowrap;
+}
+
+.task-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--silver-100);
+  vertical-align: middle;
+}
+
+.task-table tbody tr {
+  transition: background var(--transition);
+}
+
+.task-table tbody tr:hover {
+  background: linear-gradient(90deg, rgba(251, 241, 204, 0.55), transparent);
+}
+
+.task-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.task-title {
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.task-desc {
+  max-width: 38ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.task-assignee {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.task-assignee__avatar {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--grad-silver);
+  border: 1px solid var(--silver-300);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--silver-800);
+}
+
+.task-date {
+  white-space: nowrap;
+}
+
+.task-date.is-overdue {
+  color: var(--text-gold);
+  font-weight: 700;
+}
+
+.task-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ---------- Insignias y estados ---------- */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge--high {
+  background: var(--grad-gold);
+  color: var(--silver-900);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+}
+
+.badge--medium {
+  background: var(--gold-100);
+  border: 1px solid var(--gold-500);
+  color: var(--gold-700);
+}
+
+.badge--low {
+  background: var(--silver-100);
+  border: 1px solid var(--silver-300);
+  color: var(--silver-600);
+}
+
+.badge--overdue {
+  margin-left: var(--space-2);
+  padding: 0.05rem 0.5rem;
+  background: transparent;
+  border: 1px solid var(--gold-500);
+  color: var(--gold-700);
+  font-size: 0.65rem;
+}
+
+.status-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0.35rem 1.9rem 0.35rem 0.9rem;
+  border: 1px solid var(--silver-300);
+  border-radius: var(--radius-pill);
+  background-color: var(--silver-100);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236c7482' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--silver-800);
+  transition: var(--transition);
+}
+
+.status-select[data-status="progress"] {
+  background-color: var(--gold-100);
+  border-color: var(--gold-500);
+  color: var(--gold-700);
+}
+
+.status-select[data-status="done"] {
+  background-color: var(--white);
+  border-color: var(--gold-500);
+  color: var(--gold-700);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+}
+
+.status-select:hover {
+  border-color: var(--gold-500);
+}
+
+/* ---------- Estado vacío ---------- */
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-4);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty[hidden] {
+  display: none;
+}
+
+.empty .icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--gold-500);
+}
+
+.empty__title {
+  font-size: 1rem;
+}
+

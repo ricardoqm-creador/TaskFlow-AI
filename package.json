@@ -1,0 +1,33 @@
+{
+  "name": "taskflow-ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "test": "node --import tsx --test \"src/**/*.test.ts\" \"tests/**/*.test.mjs\"",
+    "db:check": "node scripts/check-migrations.mjs",
+    "check": "npm run lint && npm run typecheck && npm test && npm run db:check",
+    "demo": "tsx --env-file=.env src/examples/demo.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.1.0",
+    "googleapis": "^144.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.3.0",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.0.0",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.72.0"
+  }
+}

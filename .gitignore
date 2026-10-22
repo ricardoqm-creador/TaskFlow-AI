@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+
+# Configuración local de Claude Code (rutas y permisos de tu equipo)
+.claude/settings.local.json

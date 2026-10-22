@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TaskFlow IA · Diagramas de secuencia</title>
+  <style>
+    :root {
+      --gold-100: #fbf1cc; --gold-300: #f4dc8e; --gold-500: #d4af37; --gold-700: #8f6f10;
+      --silver-100: #eef0f4; --silver-300: #c4cad4; --silver-600: #6c7482; --silver-800: #3a4150;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px 16px 64px; color: var(--silver-800);
+      font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.5;
+      background: radial-gradient(900px 500px at 85% -10%, rgba(230,194,92,.25), transparent 60%), linear-gradient(180deg, #fff, #f1f3f7);
+    }
+    main { max-width: 1100px; margin: 0 auto; }
+    h1 { margin: 0 0 4px; font-size: 1.7rem; letter-spacing: .04em; }
+    h1 span { color: var(--gold-700); }
+    .lead { margin: 0 0 32px; color: var(--silver-600); }
+    section { margin-bottom: 32px; padding: 20px; background: rgba(255,255,255,.85); border: 1px solid var(--silver-300); border-radius: 16px; box-shadow: 0 8px 24px rgba(58,65,80,.08); overflow-x: auto; }
+    section::before { content: ""; display: block; height: 2px; margin: -20px -20px 16px; background: linear-gradient(90deg, transparent, var(--gold-500), transparent); }
+    h2 { margin: 0 0 4px; font-size: 1.15rem; }
+    p.note { margin: 0 0 16px; font-size: .9rem; color: var(--silver-600); }
+    .mermaid { text-align: center; min-width: 760px; }
+    pre.mermaid { text-align: left; white-space: pre; font-size: .8rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>TaskFlow <span>IA</span> · Diagramas de secuencia</h1>
+    <p class="lead">Qué ocurre, en orden, al crear, completar y eliminar una tarea. Son diagramas de la arquitectura propuesta (backend, PostgreSQL, n8n y servicios externos).</p>
+
+    <section>
+      <h2>1. Crear una tarea</h2>
+      <p class="note">El usuario recibe respuesta en décimas de segundo; todo lo demás ocurre después, en paralelo.</p>
+<pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor U as Aurora
+  participant UI as Interfaz
+  participant API as Backend
+  participant DB as PostgreSQL
+  participant N as n8n
+  participant S as Slack
+  participant G as Google Calendar
+  participant C as Claude
+  U->>UI: Pulsa Guardar tarea
+  UI->>API: POST /tasks
+  API->>DB: Transaccion: tarea + asignado + eventos pendientes
+  DB-->>API: OK
+  API-->>UI: 201 Created
+  UI-->>U: Fila nueva y contadores actualizados
+  API-)N: Webhook task.created y task.assigned
+  par Aviso al responsable
+    N->>DB: Lee tarea y preferencias
+    N->>S: Mensaje directo a Leo
+    N->>DB: Inserta notificacion
+  and Calendario
+    N->>G: Crea evento de dia completo
+    G-->>N: ID del evento
+    N->>DB: Guarda vinculo task_calendar_events
+  and Inteligencia artificial
+    N->>DB: Comprueba limite diario y crea sugerencia pending
+    N->>C: Tarea como datos, pide JSON
+    C-->>N: Subtareas y prioridad
+    N->>DB: Guarda respuesta ai.suggestion_ready
+    N-)UI: Aviso: tienes una sugerencia
+  end
+  N->>DB: Marca eventos como procesados
+</pre>
+    </section>
+
+    <section>
+      <h2>2. Marcar una tarea como completada</h2>
+      <p class="note">Los recordatorios futuros dejan de afectarla porque consultan solo tareas sin completar.</p>
+<pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor L as Leo
+  participant UI as Interfaz
+  participant API as Backend
+  participant DB as PostgreSQL
+  participant N as n8n
+  participant S as Slack
+  participant G as Google Calendar
+  participant GH as GitHub
+  L->>UI: Elige Completada
+  UI->>API: PATCH /tasks/128
+  API->>DB: Transaccion: status y completed_at, eventos pendientes
+  DB-->>API: OK
+  API-->>UI: 200 OK
+  UI-->>L: Contadores actualizados
+  API-)N: Webhook task.status_changed y task.completed
+  par Aviso al creador
+    N->>DB: Registra el cambio en el historial
+    N->>S: Aviso a Aurora: tarea completada
+    N->>DB: Inserta notificacion
+  and Limpieza de integraciones
+    N->>DB: Lee vinculo de calendario
+    N->>G: Marca el evento como completado
+    N->>DB: Busca issue vinculado
+    alt Hay issue
+      N->>GH: Cierra el issue
+    else Sin issue
+      N->>N: Omite el cierre
+    end
+  end
+  N->>DB: Marca eventos como procesados
+</pre>
+    </section>
+
+    <section>
+      <h2>3. Eliminar una tarea</h2>
+      <p class="note">Antes de borrar se guardan el ID del evento y el issue en el payload, porque el borrado en cascada destruye esos vinculos.</p>
+<pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor A as Aurora
+  participant UI as Interfaz
+  participant API as Backend
+  participant DB as PostgreSQL
+  participant N as n8n
+  participant G as Google Calendar
+  participant GH as GitHub
+  participant S as Slack
+  A->>UI: Pulsa la papelera
+  UI-->>A: Dialogo de confirmacion
+  A->>UI: Confirma
+  UI->>API: DELETE /tasks/131
+  API->>DB: Lee ID de evento de Calendar e issue vinculado
+  API->>DB: Borra la tarea y la cascada elimina comentarios, adjuntos y vinculos
+  DB-->>API: OK
+  API-->>UI: 204 No Content
+  UI-->>A: La fila desaparece
+  API-)N: Webhook task.deleted con los datos guardados
+  par Calendario
+    N->>G: Borra el evento
+    G-->>N: OK o 404 que se acepta
+  and GitHub
+    N->>GH: Comenta y cierra el issue 45 como no planeado
+  and Aviso
+    N->>S: Avisa a los responsables
+  end
+  N->>DB: Marca el evento como procesado
+  Note over N,DB: Los archivos fisicos de adjuntos los limpia el mantenimiento del domingo
+</pre>
+    </section>
+
+    <section>
+      <h2>4. Caso con error: token de Google revocado al eliminar</h2>
+      <p class="note">Un fallo externo no bloquea al usuario ni a los demas pasos: queda pendiente y se reintenta al reconectar.</p>
+<pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor A as Aurora
+  participant API as Backend
+  participant DB as PostgreSQL
+  participant N as n8n
+  participant G as Google Calendar
+  participant GH as GitHub
+  participant M as Correo
+  A->>API: DELETE /tasks/131
+  API->>DB: Guarda payload y borra la tarea
+  API-->>A: 204 No Content
+  API-)N: Webhook task.deleted
+  N->>G: Borra el evento
+  G--xN: invalid_grant, token revocado
+  N->>DB: Pausa la integracion del usuario
+  N->>M: Vuelve a conectar Google Calendar
+  N->>GH: Cierra el issue 45
+  GH-->>N: OK
+  N->>DB: Evento parcialmente procesado, paso de Calendar pendiente
+  Note over A,N: Cuando Aurora reconecte, se reintenta el borrado pendiente
+  A->>API: Reconecta Google Calendar
+  API-)N: Webhook integration.connected
+  N->>G: Reintenta el borrado pendiente
+  G-->>N: OK o 404
+  N->>DB: Evento completamente procesado
+</pre>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          fontFamily: 'Segoe UI, system-ui, sans-serif',
+          primaryColor: '#fbf1cc', primaryBorderColor: '#d4af37', primaryTextColor: '#3a4150',
+          lineColor: '#8f6f10', signalColor: '#3a4150', signalTextColor: '#3a4150',
+          actorBkg: '#f4dc8e', actorBorder: '#b8921f', actorTextColor: '#20242e', actorLineColor: '#c4cad4',
+          noteBkgColor: '#eef0f4', noteBorderColor: '#a3abb8', noteTextColor: '#3a4150',
+          activationBkgColor: '#fbf1cc', sequenceNumberColor: '#20242e',
+          labelBoxBkgColor: '#eef0f4', labelBoxBorderColor: '#a3abb8', labelTextColor: '#3a4150', loopTextColor: '#3a4150'
+        },
+        sequence: { mirrorActors: false, useMaxWidth: false }
+      });
+    }
+  </script>
+</body>
+</html>

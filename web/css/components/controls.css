@@ -1,0 +1,167 @@
+/* ---------- Botones ---------- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.7rem 1.3rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.btn--gold {
+  background: var(--grad-gold);
+  color: var(--silver-900);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Destello metálico al pasar el cursor */
+.btn--gold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  transform: skewX(-20deg);
+}
+
+.btn--gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(212, 175, 55, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.btn--gold:hover::after {
+  left: 160%;
+  transition: left 700ms var(--ease);
+}
+
+.btn--ghost {
+  background: var(--white);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn--ghost:hover {
+  border-color: var(--gold-500);
+  color: var(--text-gold);
+}
+
+.icon-btn {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--silver-600);
+  transition: var(--transition);
+}
+
+.icon-btn:hover {
+  border-color: var(--gold-500);
+  color: var(--gold-600);
+  box-shadow: var(--glow-gold);
+}
+
+.icon-btn--danger:hover {
+  color: var(--silver-900);
+  background: var(--gold-100);
+}
+
+.icon-btn--menu {
+  display: none;
+}
+
+.icon-btn__dot {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--grad-gold);
+  box-shadow: 0 0 8px var(--gold-500);
+}
+
+/* ---------- Búsqueda ---------- */
+.search {
+  position: relative;
+  flex: 1;
+  max-width: 440px;
+}
+
+.search .icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  color: var(--silver-400);
+  pointer-events: none;
+}
+
+.search__input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.7rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  transition: var(--transition);
+}
+
+.search__input::placeholder {
+  color: var(--silver-400);
+}
+
+.search__input:focus {
+  outline: none;
+  border-color: var(--gold-500);
+  box-shadow: var(--glow-gold);
+}
+
+/* ---------- Usuario ---------- */
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 4px var(--space-4) 4px 4px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.user-chip__avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--grad-gold);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--silver-900);
+}
+
+.user-chip__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text-strong);
+}
+
+.user-chip__role {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+

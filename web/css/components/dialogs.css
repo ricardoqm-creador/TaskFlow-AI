@@ -1,0 +1,148 @@
+/* ---------- Diálogo modal ---------- */
+.dialog {
+  width: min(560px, calc(100vw - 2rem));
+  padding: 0;
+  background: var(--white);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(212, 175, 55, 0.25);
+  color: var(--text);
+}
+
+.dialog::backdrop {
+  background: rgba(58, 65, 80, 0.4);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.dialog[open] {
+  animation: dialog-in 260ms var(--ease);
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+}
+
+.dialog__form {
+  position: relative;
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog__title {
+  font-size: 1.15rem;
+}
+
+.dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.dialog__text {
+  color: var(--text-muted);
+}
+
+/* ---------- Formulario ---------- */
+.field {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.field__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.field__label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--silver-600);
+}
+
+.field__input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  background: var(--pearl);
+  border: 1px solid var(--silver-300);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.field__input:focus {
+  outline: none;
+  background: var(--white);
+  border-color: var(--gold-500);
+  box-shadow: var(--glow-gold);
+}
+
+.field__input[aria-invalid="true"] {
+  border-color: var(--gold-600);
+  background: var(--gold-100);
+}
+
+textarea.field__input {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.field__error {
+  min-height: 1.1em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gold-700);
+}
+
+/* ---------- Avisos (toasts) ---------- */
+.toasts {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 200;
+  display: grid;
+  gap: var(--space-3);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 340px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--white);
+  border: 1px solid var(--border-gold);
+  border-left: 4px solid var(--gold-500);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-weight: 600;
+  animation: toast-in 300ms var(--ease);
+}
+
+.toast.is-leaving {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: var(--transition);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}

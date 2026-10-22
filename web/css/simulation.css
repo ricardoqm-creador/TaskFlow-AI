@@ -1,0 +1,245 @@
+/* ==========================================================================
+   Panel de simulación de automatizaciones
+   ========================================================================== */
+.sim__lead {
+  margin-top: var(--space-1);
+  max-width: 62ch;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.sim__controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.sim__check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.4rem 0.9rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--silver-600);
+  cursor: pointer;
+}
+
+.sim__check:has(input:checked) {
+  border-color: var(--gold-500);
+  background: var(--gold-100);
+  color: var(--gold-700);
+}
+
+.sim__check input {
+  accent-color: var(--gold-500);
+}
+
+.sim__speed {
+  width: auto;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+}
+
+.sim__log {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.sim-run {
+  position: relative;
+  padding: var(--space-4) var(--space-5);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.sim-run::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  background: var(--grad-gold);
+}
+
+.sim-run__head {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.sim-run__head > div {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.sim-run__events {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--text-gold);
+  word-break: break-word;
+}
+
+.sim-run__task {
+  margin-top: var(--space-1);
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.sim-run__badge {
+  flex-shrink: 0;
+  padding: 0.2rem 0.75rem;
+  background: var(--silver-100);
+  border: 1px solid var(--silver-300);
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--silver-600);
+}
+
+.sim-run__badge.is-warn {
+  background: var(--gold-100);
+  border-color: var(--gold-500);
+  color: var(--gold-700);
+}
+
+/* Línea de tiempo */
+.sim-steps {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0 0 0 var(--space-5);
+  list-style: none;
+}
+
+.sim-steps::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--gold-500), var(--silver-300));
+}
+
+.sim-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.6rem 8.2rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: 0.88rem;
+  animation: step-in 260ms var(--ease);
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.sim-step::before {
+  content: "";
+  position: absolute;
+  top: 0.45em;
+  left: calc(-1 * var(--space-5) + 1px);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--gold-500);
+}
+
+.sim-step--skip::before {
+  border-color: var(--silver-400);
+  background: var(--silver-100);
+}
+
+.sim-step--fail::before {
+  background: var(--gold-500);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.3);
+}
+
+.sim-step__time {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  color: var(--silver-600);
+  white-space: nowrap;
+}
+
+.sim-step__who {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-gold);
+}
+
+.sim-step__text {
+  color: var(--text);
+}
+
+.sim-step--skip .sim-step__text,
+.sim-step--skip .sim-step__who {
+  color: var(--silver-400);
+}
+
+.sim-step--fail .sim-step__text {
+  font-weight: 700;
+  color: var(--gold-700);
+}
+
+.sim-step__tag {
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--silver-600);
+}
+
+.sim-step--group {
+  display: block;
+  padding-top: var(--space-2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--silver-600);
+}
+
+.sim-step--group::before {
+  display: none;
+}
+
+.sim-step--end {
+  display: block;
+  padding-top: var(--space-2);
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+@media (max-width: 720px) {
+  .sim-step {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .sim-run {
+    padding: var(--space-4);
+  }
+}

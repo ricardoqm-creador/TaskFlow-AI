@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="TaskFlow IA">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F4DC8E"/>
+      <stop offset=".5" stop-color="#D4AF37"/>
+      <stop offset="1" stop-color="#B8921F"/>
+    </linearGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset=".5" stop-color="#C4CAD4"/>
+      <stop offset="1" stop-color="#A3ABB8"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="29" fill="#FFFFFF" stroke="url(#silver)" stroke-width="2.5"/>
+  <g stroke="url(#gold)" stroke-width="3" stroke-linecap="round">
+    <path d="M32 6v7"/>
+    <path d="M32 51v7"/>
+    <path d="M6 32h7"/>
+    <path d="M51 32h7"/>
+    <path d="M13.6 13.6l5 5" transform="translate(0 0)"/>
+    <path d="M45.4 45.4l5 5"/>
+    <path d="M50.4 13.6l-5 5"/>
+    <path d="M18.6 45.4l-5 5"/>
+  </g>
+  <circle cx="32" cy="32" r="12" fill="url(#gold)"/>
+  <path d="M26.5 32.5l4 4 7.5-8.5" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

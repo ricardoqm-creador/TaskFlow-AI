@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Diseño responsive
+   ========================================================================== */
+
+/* Portátiles pequeños y tabletas horizontales */
+@media (max-width: 1100px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Tabletas: la barra lateral pasa a ser un menú deslizable */
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(300px, 85vw);
+    transform: translateX(-105%);
+    transition: transform 320ms var(--ease);
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .icon-btn--menu {
+    display: inline-grid;
+  }
+
+  .topbar,
+  .content {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  body.no-scroll {
+    overflow: hidden;
+  }
+}
+
+/* Móviles: la tabla se transforma en tarjetas */
+@media (max-width: 720px) {
+  .user-chip__text {
+    display: none;
+  }
+
+  .user-chip {
+    padding: 4px;
+  }
+
+  .page-head .btn {
+    width: 100%;
+  }
+
+  .task-table {
+    min-width: 0;
+  }
+
+  .task-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .task-table,
+  .task-table tbody,
+  .task-table tr,
+  .task-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .task-table tr {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--silver-200);
+  }
+
+  .task-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .task-table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    border: 0;
+    text-align: right;
+  }
+
+  .task-table td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--silver-600);
+  }
+
+  .task-desc {
+    max-width: 24ch;
+  }
+
+  .field__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 520px) {
+  .stats {
+    gap: var(--space-3);
+  }
+
+  .stat-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .stat-card__icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .stat-card__value {
+    font-size: 1.7rem;
+  }
+
+  .panel {
+    padding: var(--space-4);
+  }
+
+  .toasts {
+    left: var(--space-4);
+    right: var(--space-4);
+  }
+}
