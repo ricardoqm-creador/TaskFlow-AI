@@ -11,7 +11,7 @@ export function requireEnv(name: string): string {
 export function intEnv(name: string, fallback: number): number {
   const raw = process.env[name];
   if (!raw) return fallback;
-  const n = Number.parseInt(raw, 10);
-  if (!Number.isFinite(n) || n <= 0) throw new Error(`${name} debe ser un entero positivo`);
-  return n;
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) throw new Error(`${name} debe ser un entero positivo`);
+  return parsed;
 }

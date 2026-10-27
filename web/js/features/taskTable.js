@@ -119,7 +119,7 @@
       rowById.set(task.id, row);
       return row;
     });
-    // Una sola inserción (medida: ~40 % más rápida que un DocumentFragment con miles de filas).
+    // Una sola inserción con todas las filas: más rápida que añadirlas a un DocumentFragment.
     refs.body.replaceChildren(...rows);
     updateChrome();
   }

@@ -119,8 +119,9 @@ export async function deleteTaskEvent(store: TokenStore, taskId: number): Promis
 }
 
 function statusOf(error: unknown): number | undefined {
-  const e = error as { code?: number | string; response?: { status?: number } };
-  const status = e?.response?.status ?? (typeof e?.code === "number" ? e.code : Number(e?.code));
+  // Los errores de Google traen el estado HTTP en `response.status` o en `code` (número o texto).
+  const errorLike = error as { code?: number | string; response?: { status?: number } };
+  const status = errorLike?.response?.status ?? (typeof errorLike?.code === "number" ? errorLike.code : Number(errorLike?.code));
   return Number.isFinite(status) ? status : undefined;
 }
 

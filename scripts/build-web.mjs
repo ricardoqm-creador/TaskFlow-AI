@@ -56,9 +56,9 @@ writeFileSync(join(out, cssName), cssMin);
 writeFileSync(join(out, jsName), jsMin);
 writeFileSync(join(out, 'index.html'), page);
 
-const kb = (text) => `${(Buffer.byteLength(text) / 1024).toFixed(1)} KB`;
-const gz = (text) => `${(gzipSync(text).length / 1024).toFixed(1)} KB`;
-console.log(`CSS: ${styles.length} archivos, ${kb(css)} -> ${kb(cssMin)} (gzip ${gz(cssMin)})`);
-console.log(`JS:  ${scripts.length} archivos, ${kb(js)} -> ${kb(jsMin)} (gzip ${gz(jsMin)})`);
+const formatKb = (text) => `${(Buffer.byteLength(text) / 1024).toFixed(1)} KB`;
+const formatGzipKb = (text) => `${(gzipSync(text).length / 1024).toFixed(1)} KB`;
+console.log(`CSS: ${styles.length} archivos, ${formatKb(css)} -> ${formatKb(cssMin)} (gzip ${formatGzipKb(cssMin)})`);
+console.log(`JS:  ${scripts.length} archivos, ${formatKb(js)} -> ${formatKb(jsMin)} (gzip ${formatGzipKb(jsMin)})`);
 console.log(`Peticiones locales al cargar: ${styles.length + scripts.length} -> 2`);
 console.log(`Generado en ${out}`);
