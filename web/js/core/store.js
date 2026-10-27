@@ -13,7 +13,10 @@
     done: 'Completada',
   });
 
+  // Mismo catálogo que la IA (src/prompts/suggestionPrompts.ts) y la base de datos (001_schema.sql).
+  // tests/catalogs.test.mjs comprueba que los tres coinciden.
   const PRIORITY = Object.freeze({
+    urgent: 'Urgente',
     high: 'Alta',
     medium: 'Media',
     low: 'Baja',
