@@ -88,11 +88,12 @@
     return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
   }
 
-  function debounce(fn, wait = 200) {
+  /** Ejecuta `fn` solo cuando han pasado `waitMs` sin nuevas llamadas. */
+  function debounce(fn, waitMs) {
     let timer;
     return (...args) => {
       clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), wait);
+      timer = setTimeout(() => fn(...args), waitMs);
     };
   }
 

@@ -7,6 +7,7 @@
 
   const { StatCard } = TF.components;
   const { prefersReducedMotion } = TF.utils;
+  const { countUpMs } = TF.config.timing;
 
   const CARDS = [
     { key: 'total', label: 'Tareas totales', icon: 'layers' },
@@ -33,10 +34,9 @@
       return;
     }
 
-    const duration = 600;
     const start = performance.now();
     function frame(now) {
-      const progress = Math.min((now - start) / duration, 1);
+      const progress = Math.min((now - start) / countUpMs, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       node.textContent = String(Math.round(from + (to - from) * eased));
       if (progress < 1) requestAnimationFrame(frame);

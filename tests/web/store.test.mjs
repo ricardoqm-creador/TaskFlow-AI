@@ -19,7 +19,7 @@ Object.defineProperty(globalThis, 'localStorage', {
 });
 
 // Mismo orden que los <script> de web/index.html (solo los que no necesitan DOM al cargar).
-for (const file of ['core/utils', 'core/storage', 'core/store', 'components/badge', 'features/taskTable']) {
+for (const file of ['core/config', 'core/utils', 'core/storage', 'core/store', 'components/badge', 'features/taskTable']) {
   await import(`../../web/js/${file}.js`);
 }
 const { store, taskTable: render } = globalThis.TaskFlow;

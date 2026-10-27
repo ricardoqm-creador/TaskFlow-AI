@@ -7,7 +7,7 @@ Object.defineProperty(globalThis, 'localStorage', {
   configurable: true,
   value: { getItem: () => null, setItem() {}, removeItem() {} },
 });
-for (const file of ['core/utils', 'core/storage', 'core/store', 'features/simulation']) {
+for (const file of ['core/config', 'core/utils', 'core/storage', 'core/store', 'features/simulation']) {
   await import(`../../web/js/${file}.js`);
 }
 const { created, status, deleted } = globalThis.TaskFlow.simulation.scenarios;

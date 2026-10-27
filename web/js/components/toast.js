@@ -5,18 +5,22 @@
   'use strict';
 
   const { el, icon } = TF.utils;
+  const { toastVisibleMs, toastExitFallbackMs } = TF.config.timing;
 
-  function show(message, duration = 3200) {
+  /** Retira el aviso cuando termina su transición de salida (definida en CSS). */
+  function dismiss(toast) {
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    toast.classList.add('is-leaving');
+    setTimeout(() => toast.remove(), toastExitFallbackMs);
+  }
+
+  function show(message, duration = toastVisibleMs) {
     const container = document.getElementById('toasts');
     if (!container) return;
 
     const toast = el('div', { class: 'toast', role: 'status' }, icon('check'), el('span', { text: message }));
     container.append(toast);
-
-    setTimeout(() => {
-      toast.classList.add('is-leaving');
-      setTimeout(() => toast.remove(), 260);
-    }, duration);
+    setTimeout(() => dismiss(toast), duration);
   }
 
   TF.toast = { show };
