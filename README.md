@@ -10,8 +10,9 @@
 ![Versión](https://img.shields.io/badge/versi%C3%B3n-0.1.0-d4af37)
 ![Node](https://img.shields.io/badge/node-24.x-3a4150)
 ![Estado](https://img.shields.io/badge/estado-prototipo-c4cad4)
+![Licencia](https://img.shields.io/badge/licencia-MIT-d4af37)
 
-[**Ver demo**](https://taskflow-ai-opal.vercel.app) · [Arquitectura](docs/secuencias.html) · [Informes técnicos](docs/)
+[**Ver demo**](https://taskflow-ai-opal.vercel.app) · [Alcance de la entrega](docs/ALCANCE.md) · [Arquitectura](docs/secuencias.html) · [Informes técnicos](docs/)
 
 </div>
 
@@ -40,7 +41,7 @@
 
 Su identidad visual, de estilo futurista, se basa únicamente en **dorado, plateado y blanco**.
 
-> **Estado del proyecto: prototipo (v0.1.0).** El front-end es funcional de forma independiente y guarda los datos en el navegador. El backend y las integraciones están implementados como módulos probados, pero todavía **no hay un servidor HTTP** que los conecte con la web. Consulta la [hoja de ruta](#hoja-de-ruta).
+> **Estado del proyecto: prototipo (v0.1.0).** El front-end es funcional de forma independiente y guarda los datos en el navegador. El backend y las integraciones están implementados como módulos probados, pero todavía **no hay un servidor HTTP** que los conecte con la web. El detalle de lo incluido y lo pendiente está en el [documento de alcance](docs/ALCANCE.md) y en la [hoja de ruta](#hoja-de-ruta).
 
 ---
 
@@ -265,6 +266,6 @@ Proyecto desarrollado durante el curso de Claude Code.
 
 ## Licencia
 
-El proyecto **todavía no tiene una licencia definida**. Mientras no se añada un archivo `LICENSE`, todos los derechos están reservados por su autor y el código no puede reutilizarse sin su permiso.
+Distribuido bajo la **licencia MIT**. Consulta el archivo [`LICENSE`](LICENSE).
 
-Si se quiere permitir su uso libre, las opciones habituales son [MIT](https://choosealicense.com/licenses/mit/) o [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/).
+Permite usar, copiar, modificar y distribuir el código, también con fines comerciales, siempre que se conserve el aviso de copyright. El software se entrega "tal cual", sin garantías.
