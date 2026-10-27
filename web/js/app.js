@@ -91,7 +91,7 @@
       debounce((event) => {
         filters.query = event.target.value;
         TF.taskTable.render(filters);
-      }, 180)
+      }, TF.config.timing.searchDebounceMs)
     );
   }
 

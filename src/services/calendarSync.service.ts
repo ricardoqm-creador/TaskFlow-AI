@@ -61,7 +61,8 @@ export class CalendarSyncService {
       refreshToken: decryptToken(row.refreshTokenEnc),
       accessToken: row.accessTokenEnc ? decryptToken(row.accessTokenEnc) : null,
       expiryDate: row.expiryDate,
-      onRefresh: (t) => this.repo.updateAccessToken(userId, { accessTokenEnc: encryptToken(t.accessToken), expiryDate: t.expiryDate }),
+      onRefresh: (tokens) =>
+        this.repo.updateAccessToken(userId, { accessTokenEnc: encryptToken(tokens.accessToken), expiryDate: tokens.expiryDate }),
     };
   }
 }

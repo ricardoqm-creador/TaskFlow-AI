@@ -25,7 +25,7 @@
   const listeners = new Set();
   const eventListeners = new Set();
 
-  /** Avisa de una acción de negocio (la usa el panel de simulación). */
+  /** Avisa a los oyentes de onEvent() de una acción de negocio (crear, cambiar estado, eliminar). */
   function emitEvent(event) {
     eventListeners.forEach((listener) => listener(event));
   }

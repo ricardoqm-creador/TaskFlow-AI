@@ -3,7 +3,7 @@ import { test } from "node:test";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { AiError } from "../../errors.js";
-import { askStructured, toAiError } from "./claudeClient.js";
+import { askStructured, readStructuredOutput, toAiError } from "./claudeClient.js";
 
 /* -------------- E6: un fallo de configuración no se disfraza -------------- */
 
@@ -47,4 +47,27 @@ test("un AiError pasa sin cambios y un error desconocido es UNAVAILABLE no reint
   assert.equal(toAiError(propio), propio);
   assert.equal(toAiError(new Error("raro")).code, "UNAVAILABLE");
   assert.equal(toAiError(new Error("raro")).retryable, false);
+});
+
+/* ----------------- Lectura de la respuesta estructurada ----------------- */
+
+const isCode = (code: string) => (error: unknown) => error instanceof AiError && error.code === code;
+
+test("readStructuredOutput devuelve el dato cuando la respuesta es válida", () => {
+  assert.deepEqual(readStructuredOutput({ stop_reason: "end_turn", parsed_output: { ok: true } }), { ok: true });
+});
+
+test("un rechazo del modelo es REFUSED y no se reintenta", () => {
+  assert.throws(() => readStructuredOutput({ stop_reason: "refusal", parsed_output: { ok: true } }), isCode("REFUSED"));
+  try { readStructuredOutput({ stop_reason: "refusal", parsed_output: null }); } catch (error) { assert.equal((error as AiError).retryable, false); }
+});
+
+test("una respuesta cortada por max_tokens es TRUNCATED y reintentable", () => {
+  assert.throws(() => readStructuredOutput({ stop_reason: "max_tokens", parsed_output: null }), isCode("TRUNCATED"));
+  try { readStructuredOutput({ stop_reason: "max_tokens", parsed_output: null }); } catch (error) { assert.equal((error as AiError).retryable, true); }
+});
+
+test("sin salida válida es INVALID_OUTPUT", () => {
+  assert.throws(() => readStructuredOutput({ stop_reason: "end_turn", parsed_output: null }), isCode("INVALID_OUTPUT"));
+  assert.throws(() => readStructuredOutput({ stop_reason: "end_turn", parsed_output: undefined }), isCode("INVALID_OUTPUT"));
 });

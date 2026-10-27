@@ -47,20 +47,20 @@
   }
 
   function toISO(date) {
-    const m = String(date.getMonth() + 1).padStart(2, '0');
-    const d = String(date.getDate()).padStart(2, '0');
-    return `${date.getFullYear()}-${m}-${d}`;
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${day}`;
   }
 
-  /** Devuelve hoy + n días en formato ISO. */
+  /** Fecha de hoy más `days` días, en formato ISO (YYYY-MM-DD). */
   function addDaysISO(days) {
     const date = new Date();
     date.setDate(date.getDate() + days);
     return toISO(date);
   }
 
-  // Crear un formateador de fechas es caro (~55 µs): se crea una sola vez y se recuerda el
-  // resultado de cada fecha, que se repite mucho entre tareas. Medido: 10.000 fechas pasaron de ~570 ms a <1 ms.
+  // Crear un formateador de fechas es caro: se crea una sola vez y se recuerda el resultado
+  // de cada fecha, que se repite mucho entre tareas.
   const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: '2-digit', month: 'short', year: 'numeric' });
   const formattedDates = new Map();
 
@@ -88,11 +88,12 @@
     return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
   }
 
-  function debounce(fn, wait = 200) {
+  /** Ejecuta `fn` solo cuando han pasado `waitMs` sin nuevas llamadas. */
+  function debounce(fn, waitMs) {
     let timer;
     return (...args) => {
       clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), wait);
+      timer = setTimeout(() => fn(...args), waitMs);
     };
   }
 
