@@ -173,7 +173,7 @@
 
 .sim-step--fail::before {
   background: var(--gold-500);
-  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 0 4px rgb(var(--gold-rgb) / 0.3);
 }
 
 .sim-step__time {

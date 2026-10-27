@@ -4,12 +4,13 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": "24.x"
   },
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
+    "build:web": "node scripts/build-web.mjs",
     "test": "node --import tsx --test \"src/**/*.test.ts\" \"tests/**/*.test.mjs\"",
     "db:check": "node scripts/check-migrations.mjs",
     "check": "npm run lint && npm run typecheck && npm test && npm run db:check",
@@ -24,6 +25,7 @@
     "@electric-sql/pglite": "^0.3.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
+    "esbuild": "^0.28.2",
     "eslint": "^10.13.0",
     "globals": "^17.13.0",
     "tsx": "^4.19.0",

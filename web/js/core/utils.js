@@ -110,7 +110,6 @@
   TF.utils = {
     el,
     icon,
-    todayISO,
     addDaysISO,
     formatDate,
     isOverdue,

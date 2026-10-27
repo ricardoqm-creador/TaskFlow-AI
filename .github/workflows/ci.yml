@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Instalar dependencias
@@ -33,3 +33,6 @@ jobs:
 
       - name: Verificar migraciones SQL
         run: npm run db:check
+
+      - name: Compilar backend y web de producción
+        run: npm run build && npm run build:web
