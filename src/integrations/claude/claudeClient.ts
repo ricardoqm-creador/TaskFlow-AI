@@ -23,6 +23,26 @@ export interface StructuredResult<T> {
   outputTokens: number;
 }
 
+/** Parte de la respuesta del SDK que decide si se puede usar. */
+interface ParsedResponse<T> {
+  stop_reason: string | null;
+  parsed_output: T | null | undefined;
+}
+
+/** Devuelve el dato validado, o lanza un AiError si la respuesta no se puede usar. */
+export function readStructuredOutput<T>(response: ParsedResponse<T>): T {
+  if (response.stop_reason === "refusal") {
+    throw new AiError("REFUSED", "El modelo rechazó la solicitud.");
+  }
+  if (response.stop_reason === "max_tokens") {
+    throw new AiError("TRUNCATED", "La respuesta se cortó; aumenta AI_MAX_OUTPUT_TOKENS.", true);
+  }
+  if (!response.parsed_output) {
+    throw new AiError("INVALID_OUTPUT", "La respuesta no cumple el esquema esperado.", true);
+  }
+  return response.parsed_output;
+}
+
 /** Envía una petición y devuelve la respuesta ya validada contra un esquema Zod. */
 export async function askStructured<T extends z.ZodType>(opts: {
   system: string;
@@ -43,18 +63,8 @@ export async function askStructured<T extends z.ZodType>(opts: {
       output_config: { format: zodOutputFormat(opts.schema) },
     });
 
-    if (response.stop_reason === "refusal") {
-      throw new AiError("REFUSED", "El modelo rechazó la solicitud.");
-    }
-    if (response.stop_reason === "max_tokens") {
-      throw new AiError("TRUNCATED", "La respuesta se cortó; aumenta AI_MAX_OUTPUT_TOKENS.", true);
-    }
-    if (!response.parsed_output) {
-      throw new AiError("INVALID_OUTPUT", "La respuesta no cumple el esquema esperado.", true);
-    }
-
     return {
-      data: response.parsed_output,
+      data: readStructuredOutput(response),
       model: response.model,
       inputTokens: response.usage.input_tokens,
       outputTokens: response.usage.output_tokens,
