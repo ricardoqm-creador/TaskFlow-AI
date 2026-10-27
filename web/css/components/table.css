@@ -103,6 +103,13 @@
   white-space: nowrap;
 }
 
+/* Urgente: el dorado más intenso, con texto blanco (contraste ≥ 4,5:1) y doble anillo. */
+.badge--urgent {
+  background: var(--gold-700);
+  color: var(--white);
+  box-shadow: 0 0 0 2px var(--gold-300), 0 0 14px rgb(var(--gold-rgb) / 0.6);
+}
+
 .badge--high {
   background: var(--grad-gold);
   color: var(--silver-900);

@@ -51,7 +51,7 @@ test('descarta los registros irrecuperables y conserva los válidos', () => {
     { ...valid, id: '' },
     { ...valid, id: 'b', title: '   ' },
     { ...valid, id: 'c', status: 'archivada' },
-    { ...valid, id: 'd', priority: 'urgent' },
+    { ...valid, id: 'd', priority: 'critica' },
   ]);
   assert.deepEqual(tasks.map((task) => task.id), ['a1']);
 });
