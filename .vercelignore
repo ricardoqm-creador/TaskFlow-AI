@@ -1,0 +1,12 @@
+# Archivos que Vercel no necesita para compilar la web (se suben menos datos y nada sensible).
+# La compilación solo usa: package.json, package-lock.json, scripts/build-web.mjs y web/.
+docs/
+examples/
+db/
+tests/
+src/
+.claude/
+.github/
+.mcp.json
+*.md
+!web/README.md

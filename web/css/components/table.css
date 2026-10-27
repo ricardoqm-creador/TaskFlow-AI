@@ -36,7 +36,7 @@
 }
 
 .task-table tbody tr:hover {
-  background: linear-gradient(90deg, rgba(251, 241, 204, 0.55), transparent);
+  background: linear-gradient(90deg, rgb(var(--gold-pale-rgb) / 0.55), transparent);
 }
 
 .task-table tbody tr:last-child td {
@@ -106,7 +106,7 @@
 .badge--high {
   background: var(--grad-gold);
   color: var(--silver-900);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+  box-shadow: 0 0 12px rgb(var(--gold-rgb) / 0.45);
 }
 
 .badge--medium {
@@ -156,7 +156,7 @@
   background-color: var(--white);
   border-color: var(--gold-500);
   color: var(--gold-700);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 12px rgb(var(--gold-rgb) / 0.35);
 }
 
 .status-select:hover {

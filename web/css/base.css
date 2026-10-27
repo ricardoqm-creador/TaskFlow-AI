@@ -20,9 +20,9 @@ body {
   line-height: 1.5;
   color: var(--text);
   background:
-    radial-gradient(900px 500px at 85% -10%, rgba(230, 194, 92, 0.28), transparent 60%),
-    radial-gradient(700px 500px at -5% 105%, rgba(196, 202, 212, 0.55), transparent 60%),
-    linear-gradient(180deg, var(--white) 0%, #f1f3f7 100%);
+    radial-gradient(900px 500px at 85% -10%, rgb(var(--gold-light-rgb) / 0.28), transparent 60%),
+    radial-gradient(700px 500px at -5% 105%, rgb(var(--silver-light-rgb) / 0.55), transparent 60%),
+    linear-gradient(180deg, var(--white) 0%, var(--page-bottom) 100%);
   background-attachment: fixed;
 }
 
@@ -34,8 +34,8 @@ body::before {
   z-index: -2;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(163, 171, 184, 0.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(163, 171, 184, 0.16) 1px, transparent 1px);
+    linear-gradient(rgb(var(--silver-mid-rgb) / 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--silver-mid-rgb) / 0.16) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse at 60% 20%, #000 0%, transparent 75%);
   -webkit-mask-image: radial-gradient(ellipse at 60% 20%, #000 0%, transparent 75%);
@@ -54,7 +54,7 @@ body::after {
   border-radius: 50%;
   background: repeating-conic-gradient(
     from 0deg,
-    rgba(212, 175, 55, 0.14) 0deg 4deg,
+    rgb(var(--gold-rgb) / 0.14) 0deg 4deg,
     transparent 4deg 15deg
   );
   mask-image: radial-gradient(circle, #000 0%, transparent 68%);
@@ -109,6 +109,11 @@ img,
 svg {
   display: block;
   max-width: 100%;
+}
+
+/* Sprite de iconos: se define una vez en el HTML y se reutiliza con <use href="#i-..."> */
+.icon-sprite {
+  display: none;
 }
 
 .icon {

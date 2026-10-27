@@ -39,11 +39,29 @@ npm run check        # lint + tipos + pruebas + migraciones SQL
 | `npm run lint` | Análisis estático con ESLint (errores reales y reglas de seguridad) |
 | `npm run typecheck` | Comprueba los tipos de TypeScript |
 | `npm test` | Ejecuta las pruebas unitarias |
+| `npm run build:web` | Versión de producción de la web en `dist/web` (1 CSS + 1 JS minificados, con huella para caché) |
+| `npm run build` | Compila el backend en `dist/api` (sin pruebas ni ejemplos) |
 | `npm run db:check` | Aplica `db/migrations/*.sql` en un PostgreSQL en memoria y verifica las restricciones |
 | `npm run demo` | Prueba de la integración con Claude (necesita `.env`) |
 
 **Front-end:** abre `web/index.html` con doble clic.
 **Diagramas:** abre `docs/secuencias.html` (necesita internet para dibujarlos).
+
+## Despliegue en Vercel
+
+La configuración está en `vercel.json`, así que no hay que tocar ajustes en el panel:
+
+| Ajuste | Valor |
+|---|---|
+| Instalación | `npm ci` |
+| Compilación | `npm run build:web` |
+| Carpeta publicada | `dist/web` (1 CSS + 1 JS minificados) |
+| Node.js | 24.x (`package.json` y `.nvmrc`) |
+| Cabeceras | CSP, `nosniff`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy` y caché larga para `assets/app.*` |
+
+En el panel de Vercel, **Root Directory** debe quedar en la raíz del repositorio (vacío o `./`); si
+no, Vercel no lee `vercel.json`. `.vercelignore` evita subir lo que la web no necesita
+(backend, pruebas, documentación y ejemplos).
 
 ## Configuración
 

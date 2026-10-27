@@ -25,16 +25,17 @@
 
   /* ----------------------- Constructor de pasos ----------------------- */
 
+  /** Acumula los pasos de un escenario. Los pasos comunes a varios escenarios viven aquí. */
   function builder() {
     const steps = [];
+    const say = (t, who, text, state = 'ok') => steps.push({ t, who, text, state });
     return {
       steps,
-      say(t, who, text, state = 'ok') {
-        steps.push({ t, who, text, state });
-      },
-      group(text) {
-        steps.push({ group: true, text });
-      },
+      say,
+      /** Separador: lo que sigue ocurre en paralelo, en segundo plano. */
+      parallel: () => steps.push({ group: true, text: 'Se ejecutan en paralelo (los tiempos son relativos al inicio)' }),
+      /** En esta demo ninguna tarea tiene un issue de GitHub vinculado. */
+      noLinkedIssue: (t) => say(t, 'GitHub', 'Sin issue vinculado: se omite el cierre', 'skip'),
     };
   }
 
@@ -62,7 +63,7 @@
     b.say(120, 'Interfaz', 'Recibe 201: la fila aparece y los contadores del dashboard se actualizan');
     b.say(150, 'Backend → n8n', 'Envía webhooks firmados sin esperar respuesta (el usuario ya tiene su respuesta)');
 
-    b.group('Se ejecutan en paralelo (los tiempos son relativos al inicio)');
+    b.parallel();
 
     if (task.assignee) {
       b.say(300, 'n8n', 'A · task.assigned: valida el secreto del webhook y lee tarea y usuario');
@@ -78,7 +79,8 @@
       if (fail) {
         calendarFailure(b, 500);
       } else {
-        b.say(500, 'Google Calendar', `Crea el evento de día completo tf-${task.id.slice(0, 6)} para el ${dueText(task)}`);
+        // Mismo formato que eventIdForTask() del backend: "tf" + id numérico de la tarea.
+        b.say(500, 'Google Calendar', `Crea el evento de día completo tf<id> para el ${dueText(task)}`);
         b.say(1200, 'Base de datos', 'Guarda el vínculo en task_calendar_events');
       }
     } else {
@@ -114,7 +116,7 @@
     b.say(100, 'Interfaz', 'Actualiza los contadores: Pendientes, En progreso y Completadas');
     b.say(120, 'Backend → n8n', 'Envía los webhooks firmados');
 
-    b.group('Se ejecutan en paralelo (los tiempos son relativos al inicio)');
+    b.parallel();
 
     b.say(300, 'n8n', 'A · task.status_changed: lee la tarea y registra el cambio en el historial');
     if (completed) {
@@ -133,7 +135,7 @@
       } else {
         b.say(700, 'Google Calendar', 'Sin evento vinculado: no hay nada que actualizar', 'skip');
       }
-      b.say(1100, 'GitHub', 'Sin issue vinculado: se omite el cierre', 'skip');
+      b.noLinkedIssue(1100);
       b.say(1200, 'n8n', 'Los recordatorios due_soon y overdue consultan solo tareas sin completar: dejan de afectarla');
     } else if (reopened && task.dueDate) {
       b.say(350, 'n8n', 'B · La tarea se reabrió: reactiva su evento del calendario');
@@ -156,7 +158,7 @@
     b.say(120, 'Interfaz', 'La fila desaparece y los contadores bajan');
     b.say(160, 'Backend → n8n', 'Envía el webhook task.deleted con los datos guardados (los originales ya no existen)');
 
-    b.group('Se ejecutan en paralelo (los tiempos son relativos al inicio)');
+    b.parallel();
 
     b.say(400, 'n8n', 'Valida el secreto y lee el payload');
     if (task.dueDate && fail) {
@@ -166,7 +168,7 @@
     } else {
       b.say(900, 'Google Calendar', 'Sin evento vinculado: se omite', 'skip');
     }
-    b.say(1400, 'GitHub', 'Sin issue vinculado: se omite el cierre', 'skip');
+    b.noLinkedIssue(1400);
     if (task.assignee) {
       b.say(1800, 'Slack', `Avisa a ${task.assignee}: «La tarea ${task.title} fue eliminada»`);
     } else {

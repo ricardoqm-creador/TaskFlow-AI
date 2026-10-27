@@ -45,7 +45,7 @@
 .stat-card:hover {
   transform: translateY(-4px);
   border-color: var(--border-gold);
-  box-shadow: var(--shadow-lg), 0 0 26px rgba(212, 175, 55, 0.25);
+  box-shadow: var(--shadow-lg), 0 0 26px rgb(var(--gold-rgb) / 0.25);
 }
 
 .stat-card__icon {
@@ -75,7 +75,7 @@
   background: var(--grad-gold);
   border-color: var(--gold-500);
   color: var(--silver-900);
-  box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 18px rgb(var(--gold-rgb) / 0.5);
 }
 
 .stat-card__label {
@@ -126,6 +126,6 @@
   background: var(--grad-gold);
   border-color: var(--gold-500);
   color: var(--silver-900);
-  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 14px rgb(var(--gold-rgb) / 0.4);
 }
 
