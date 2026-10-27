@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isRealDate } from "../dates.js";
 
 // Esquemas de salida: lo que esperamos recibir de Claude.
 export const SubtasksSchema = z.object({
@@ -14,8 +15,11 @@ export const SubtasksSchema = z.object({
   rationale: z.string().max(500),
 });
 
+/** Catálogo de prioridades: el mismo que la web (core/store.js) y la base de datos (001_schema.sql). */
+export const PRIORITIES = ["low", "medium", "high", "urgent"] as const;
+
 export const PrioritySchema = z.object({
-  priority: z.enum(["low", "medium", "high", "urgent"]),
+  priority: z.enum(PRIORITIES),
   rationale: z.string().max(500),
 });
 
@@ -38,18 +42,27 @@ export function subtasksPrompt(t: TaskContext): string {
 }
 
 export function priorityPrompt(t: TaskContext): string {
-  return `Sugiere una prioridad (low, medium, high, urgent) para la tarea.\n${taskBlock(t)}`;
+  return `Sugiere una prioridad (${PRIORITIES.join(", ")}) para la tarea.\n${taskBlock(t)}`;
+}
+
+/**
+ * Neutraliza `<` y `>` en el texto del usuario. Así ninguna variante (`</task >`, `<task x>`,
+ * `</ TASK>`...) puede abrir ni cerrar etiquetas: los únicos `<` del bloque son los nuestros.
+ */
+export function escapeForPrompt(value?: string | null): string {
+  return (value ?? "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function taskBlock(t: TaskContext): string {
-  // Se neutralizan las etiquetas para que el texto del usuario no pueda cerrar <task>.
-  const clean = (s?: string | null) => (s ?? "").replace(/<\/?task>/gi, "");
+  // Los campos que no son texto libre solo se aceptan si tienen un valor válido.
+  const dueDate = t.dueDate && isRealDate(t.dueDate) ? t.dueDate : "sin fecha";
+  const priority = PRIORITIES.find((value) => value === t.currentPriority) ?? "sin definir";
   return [
     "<task>",
-    `Título: ${clean(t.title)}`,
-    `Descripción: ${clean(t.description)}`,
-    `Fecha límite: ${t.dueDate ?? "sin fecha"}`,
-    `Prioridad actual: ${t.currentPriority ?? "sin definir"}`,
+    `Título: ${escapeForPrompt(t.title)}`,
+    `Descripción: ${escapeForPrompt(t.description)}`,
+    `Fecha límite: ${dueDate}`,
+    `Prioridad actual: ${priority}`,
     "</task>",
   ].join("\n");
 }

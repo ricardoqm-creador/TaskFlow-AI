@@ -1,4 +1,5 @@
 import { google, type calendar_v3 } from "googleapis";
+import { isRealDate } from "../../dates.js";
 import { CalendarError } from "./calendarErrors.js";
 import { createOAuthClient } from "./googleAuth.js";
 
@@ -58,13 +59,6 @@ function calendarFor(store: TokenStore): calendar_v3.Calendar {
     void persistRefreshedToken(store, tokens);
   });
   return google.calendar({ version: "v3", auth });
-}
-
-/** true si `value` es una fecha real en formato YYYY-MM-DD (rechaza "2026-02-30"). */
-function isRealDate(value: string): boolean {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const date = new Date(`${value}T00:00:00Z`);
-  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
 
 // Evento de día completo: en Google, `end.date` es exclusivo, por eso se suma un día.
